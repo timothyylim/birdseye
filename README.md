@@ -4,8 +4,6 @@ BirdsEye is an open source explorer for data hosted by the [Community Archive](h
 
 ## Join our Discord
 
-[Discord](https://discord.gg/community-archive)
-
 https://discord.gg/VRvYGvrk8Z
 
 ## Development
