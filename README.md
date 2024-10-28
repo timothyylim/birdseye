@@ -1,3 +1,15 @@
+# BirdsEye
+
+BirdsEye is an open source explorer for data hosted by the [Community Archive](https://community-archive.org).
+
+## Join our Discord
+
+[Discord](https://discord.gg/community-archive)
+
+https://discord.gg/VRvYGvrk8Z
+
+## Development
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
