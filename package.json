@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "install-force": "npm install --force",
+    "install-legacy": "npm install --legacy-peer-deps",
+    "ci-legacy": "npm ci --legacy-peer-deps"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.0",
@@ -31,3 +34,4 @@
     "typescript": "^5"
   }
 }
+
