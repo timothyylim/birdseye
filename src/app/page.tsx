@@ -53,14 +53,12 @@ export default function Home() {
       
       <main className="flex-grow bg-gray-50">
         <div className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-2">Community Archive Explorer</h1>
+          <h1 className="text-3xl font-bold mb-2">Community Archive Explorer!</h1>
           <p className="text-gray-600 text-lg mb-8">Browse and discover community profiles</p>
           
           <div className="bg-white rounded-lg shadow-md p-6">
             <ProfilesTable profiles={profiles} />
           </div>
-
-          <p>built with a test runner</p>
         </div>
       </main>
     </div>
