@@ -1,28 +1,60 @@
-name: Deploy to Server
+name: Node.js CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
-  deploy:
+  build:
     runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [20]
 
     steps:
     - name: Check out code
       uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci --legacy-peer-deps
 
     - name: Build the application
-      run: |
-        npm ci --legacy-peer-deps
-        npm run build
-
+      run: npm run build --if-present
+    
     - name: Deploy to production directory
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SERVER_HOST: your_server_ip
+        SERVER_USER: your_server_user
       run: |
-        # Copy build artifacts to the production directory
-        rm -rf /home/dev/birdseye/*
-        cp -R ${{ github.workspace }}/* /home/dev/birdseye/
-        
-        # Restart PM2 to apply changes
-        pm2 reload /home/dev/birdseye
+        mkdir -p ~/.ssh
+        echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << 'EOF'
+          # Navigate to the application directory
+          rm -rf /home/dev/birdseye/*
+          cp -R ${{ github.workspace }}/* /home/dev/birdseye/
+          
+          # Install dependencies on the server if needed
+          cd /home/dev/birdseye
+          npm ci --legacy-peer-deps
+
+          # Start or reload the app with PM2
+          pm2 start npm --name "birdseye-app" -- start --prefix /home/dev/birdseye || pm2 reload birdseye-app
+          pm2 save
+        EOF
+    
+    - name: Output build logs for debugging
+      if: failure()
+      run: |
+        echo "Displaying npm-debug.log if available"
+        if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+        echo "Displaying build logs if available"
+        if [ -f build.log ]; then cat build.log; fi
