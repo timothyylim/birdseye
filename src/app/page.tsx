@@ -59,6 +59,8 @@ export default function Home() {
           <div className="bg-white rounded-lg shadow-md p-6">
             <ProfilesTable profiles={profiles} />
           </div>
+
+          <p>built with a test runner</p>
         </div>
       </main>
     </div>
