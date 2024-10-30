@@ -29,11 +29,19 @@ jobs:
     - name: Build the application
       run: npm run build --if-present
 
-    - name: Replace /home/dev/birdseye directory
+    - name: Replace /home/dev/birdseye directory with built files
       run: |
         rm -rf /home/dev/birdseye
         mkdir -p /home/dev/birdseye
-        cp -R ${{ github.workspace }}/* /home/dev/birdseye/
+        # Copy only necessary files and the build output
+        cp -R ${{ github.workspace }}/.next /home/dev/birdseye/.next
+        cp ${{ github.workspace }}/package.json /home/dev/birdseye/
+        cp ${{ github.workspace }}/package-lock.json /home/dev/birdseye/
+
+    - name: Install production dependencies on server
+      run: |
+        cd /home/dev/birdseye
+        npm ci --only=production --legacy-peer-deps
 
     - name: Start or Restart PM2
       run: |
