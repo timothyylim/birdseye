@@ -31,9 +31,9 @@ jobs:
 
     - name: Replace /home/dev/birdseye directory
       run: |
-        sudo rm -rf /home/dev/birdseye
-        sudo mkdir -p /home/dev/birdseye
-        sudo cp -R ${{ github.workspace }}/* /home/dev/birdseye/
+        rm -rf /home/dev/birdseye
+        mkdir -p /home/dev/birdseye
+        cp -R ${{ github.workspace }}/* /home/dev/birdseye/
 
     - name: Start or Restart PM2
       run: |
