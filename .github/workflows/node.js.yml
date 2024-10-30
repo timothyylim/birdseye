@@ -1,37 +1,28 @@
-name: Node.js CI
+name: Deploy to Server
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: self-hosted
-
-    strategy:
-      matrix:
-        node-version: [20]
 
     steps:
     - name: Check out code
       uses: actions/checkout@v4
-    
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm ci --legacy-peer-deps
 
     - name: Build the application
-      run: npm run build --if-present
-    
-    - name: Output build logs for debugging
-      if: failure()
       run: |
-        echo "Displaying npm-debug.log if available"
-        if [ -f npm-debug.log ]; then cat npm-debug.log; fi
-        echo "Displaying build logs if available"
-        if [ -f build.log ]; then cat build.log; fi
+        npm ci --legacy-peer-deps
+        npm run build
+
+    - name: Deploy to production directory
+      run: |
+        # Copy build artifacts to the production directory
+        rm -rf /home/dev/birdseye/*
+        cp -R ${{ github.workspace }}/* /home/dev/birdseye/
+        
+        # Restart PM2 to apply changes
+        pm2 reload /home/dev/birdseye
