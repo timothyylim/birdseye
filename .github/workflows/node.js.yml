@@ -29,6 +29,11 @@ jobs:
     - name: Build the application
       run: npm run build --if-present
 
+    - name: Deploy to production directory
+      run: |
+        rm -rf /home/dev/birdseye/*
+        cp -R ${{ github.workspace }}/* /home/dev/birdseye/
+
     - name: Start or Reload PM2
       run: |
         pm2 start npm --name "birdseye-app" -- start --prefix /home/dev/birdseye || pm2 reload birdseye-app
