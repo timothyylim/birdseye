@@ -14,7 +14,7 @@ export default function About() {
             </p>
 
 
-            <div className="bg-white rounded-xl shadow-md p-8">
+            <div className="bg-white rounded-xl shadow-md p-8 mb-10">
               <h2 className="text-3xl font-bold mb-6 text-gray-900">Join Our Community</h2>
               <p className="text-gray-600 text-xl leading-relaxed mb-8">
                 Have feature requests or found a bug? Join our Discord community to discuss, share feedback, and connect with other users.
@@ -28,7 +28,7 @@ export default function About() {
                 Join Discord Server
               </a>
             </div>
-            
+
             <div className="bg-white rounded-xl shadow-md p-8 mb-10">
               <p className="text-gray-700 text-lg mb-6">Don&apos;t see your profile here? Check out this short video on how to request it from X and upload it to the <a href="https://community-archive.org" className="text-blue-600 hover:text-blue-800 hover:underline">Community Archive</a>:</p>
 
