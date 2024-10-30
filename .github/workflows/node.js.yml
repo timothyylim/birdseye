@@ -45,6 +45,10 @@ jobs:
 
     - name: Start or Restart PM2
       run: |
-        pm2 delete birdseye-app || true
-        pm2 start npm --name "birdseye-app" -- start --prefix /home/dev/birdseye
+        # Check if birdseye-app already exists
+        if pm2 describe birdseye-app > /dev/null; then
+          pm2 restart birdseye-app
+        else
+          pm2 start npm --name "birdseye-app" -- start --prefix /home/dev/birdseye
+        fi
         pm2 save
